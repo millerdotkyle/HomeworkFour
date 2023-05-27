@@ -1,32 +1,33 @@
 // variables to keep track of quiz state
 var currentQuestionIndex = 0;
 //time left value here
-// var time = ;
-var timerId;
+// var time = 0;
+var timer = 60;
 
 // variables to reference DOM elements
-var questionsEl = document.getElementById('');
-var timerEl = document.getElementById('');
-var choicesEl = document.getElementById('');
-var submitBtn = document.getElementById('');
-var startBtn = document.getElementById('');
-var initialsEl = document.getElementById('');
-var feedbackEl = document.getElementById('');
+var questionsEl = document.getElementById('questions');
+var timerEl = document.getElementById('time');
+var choicesEl = document.getElementById('choices');
+var submitBtn = document.getElementById('submit');
+var startBtn = document.getElementById('start');
+var initialsEl = document.getElementById('initials');
+var feedbackEl = document.getElementById('feedback');
 
+console.log(timerEl);
 
 function startQuiz() {
   // hide start screen
-  var startScreenEl = document.getElementById('');
-  startScreenEl.setAttribute('class', '');
+  var startScreenEl = document.getElementById('start-screen');
+  startScreenEl.setAttribute("class", "hide");
 
   // un-hide questions section
-  questionsEl.removeAttribute('');
+  questionsEl.removeAttribute("class" , 'hide');
 
   // start timer
-  timerId = setInterval(clockTick, 1000);
+  timer = setInterval(clockTick, 1000);
 
   // show starting time
-  timerEl.textContent = time;
+  timerEl.textContent = timer;
 
   getQuestion();
 }
@@ -36,14 +37,14 @@ function getQuestion() {
   var currentQuestion = questions[currentQuestionIndex];
 
   // update title with current question
-  var titleEl = document.getElementById('');
-  titleEl.textContent = ; //think dot notation
+  var titleEl = document.getElementById('question-title');
+  titleEl.textContent = currentQuestion.title; //think dot notation
 
   // clear out any old question choices
   choicesEl.innerHTML = '';
 
   // loop over choices
-  for (var i = 0; i < ; i++) {
+  for (var i = 0; i < currentQuestion.choices.length; i++) {
     // create new button for each choice
     var choice = currentQuestion.choices[i];
     var choiceNode = document.createElement('');
@@ -66,17 +67,17 @@ function questionClick(event) {
   }
 
   // check if user guessed wrong
-  if () {
+  if (buttonEl !== currentQuestion.answer) {
 
 
 
     // penalize time
-    
+    timer--;
   
    
 
     // display new time on page
-   
+   timerEl.textContent(timer);
 
   // flash right/wrong feedback on page for half a second
  
@@ -85,7 +86,7 @@ function questionClick(event) {
   
 
   // check if we've run out of questions or if time ran out?
-  if () {
+  if (!currentQuestion || timer == 0) {
 
     //if it did ???
 
@@ -93,7 +94,7 @@ function questionClick(event) {
     
     // if it didnt??
   }
-}
+}}
 
 function quizEnd() {
   // stop timer
@@ -112,7 +113,9 @@ function quizEnd() {
 function clockTick() {
   // update time
   // decrement the variable we are using to track time
-  timerEl.textContent = ; // update out time
+  timer--;
+
+  timerEl.textContent = timer; // update out time
 
   // check if user ran out of time
   if (time <= 0) {
@@ -125,11 +128,11 @@ function saveHighscore() {
   var initials = initialsEl.value.trim();
 
   // make sure value wasn't empty
-  if () {
+  if (initials) {
 
     // get saved scores from localstorage, or if not any, set to empty array
     
-    var highscores =
+    var highscores = localStorage.getItem("")
       JSON.parse() /* what would go inside the PARSE??*/ || [];
 
     // format new score object for current user
