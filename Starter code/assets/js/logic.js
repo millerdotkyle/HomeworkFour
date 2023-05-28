@@ -13,6 +13,12 @@ var startBtn = document.getElementById('start');
 var initialsEl = document.getElementById('initials');
 var feedbackEl = document.getElementById('feedback');
 
+var highscores = [{
+  initials: "", 
+  score: 0
+}];
+
+// localStorage.setItem("highscores", JSON.stringify(highscores));
 
 // console.log(timerEl);
 
@@ -99,7 +105,7 @@ function questionClick(event) {
 
   currentQuestionIndex++;
   // check if we've run out of questions or if time ran out?
-  if (currentQuestionIndex == questions.length || timer <= 0) {
+  if (currentQuestionIndex >= questions.length || timer <= 0) {
 
     //if it did ???
     quizEnd();
@@ -157,8 +163,8 @@ function saveHighscore() {
 
     // get saved scores from localstorage, or if not any, set to empty array
     
-    var highscores = localStorage.getItem("")
-      JSON.parse() /* what would go inside the PARSE??*/ || [];
+    var highscores = localStorage.getItem("highscores")
+      JSON.parse(highscores) /* what would go inside the PARSE??*/ || [];
 
     // format new score object for current user
     var newScore = {
@@ -167,11 +173,13 @@ function saveHighscore() {
     };
 
     // save to localstorage
-    highscores.push(newScore);
-    window.localStorage.setItem('highscores', JSON.stringify(""));
+    highscores.initials.push(newScore);
+    window.localStorage.setItem('highscores', JSON.stringify(highscores));
 
     // redirect to next page
     window.location.href = '/highscores.html';
+  } else {
+    alert("please enter your initials!!!");
   }
 }
 
