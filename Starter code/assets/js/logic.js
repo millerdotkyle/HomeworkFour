@@ -1,8 +1,8 @@
-// variables to keep track of quiz state
+// variable to keep track of quiz advancement
 var currentQuestionIndex = 0;
 //time left value here
-// var time = 0;
-var timer = 60;
+var timer = 100;
+console.log(timer);
 
 // variables to reference DOM elements
 var questionsEl = document.getElementById('questions');
@@ -12,6 +12,7 @@ var submitBtn = document.getElementById('submit');
 var startBtn = document.getElementById('start');
 var initialsEl = document.getElementById('initials');
 var feedbackEl = document.getElementById('feedback');
+
 
 // console.log(timerEl);
 
@@ -24,7 +25,8 @@ function startQuiz() {
   questionsEl.removeAttribute("class" , 'hide');
 
   // start timer
-  timer = setInterval(clockTick, 1000);
+  timeLeft = setInterval(clockTick, 1000);
+  console.log(timer)
 
   // show starting time
   timerEl.textContent = timer;
@@ -74,53 +76,71 @@ function questionClick(event) {
   if (buttonEl.value != questions[currentQuestionIndex].answer) {
 
     // penalize time
-    timer = timer-5;
+    timer = timer-20;
   
    
     // display new time on page
    timerEl.textContent = timer;
 
   // flash right/wrong feedback on page for half a second
-  // alert("Incorrect, 5 seconds have been deducted, try again");
 
+  feedbackEl.textContent = "Wrong";
 
-  // move to next question
-  currentQuestionIndex++;
-  getQuestion(currentQuestionIndex);
+  feedbackEl.removeAttribute("class", "hide");
+
+  setTimeout(cleearFeedback , 5000);
+  function cleearFeedback () {
+    feedbackEl.setAttribute("class", "hide");
   }
 
+  } else {
+    feedbackEl.textContent = "Correct";
+  }
+
+  currentQuestionIndex++;
   // check if we've run out of questions or if time ran out?
-  if (currentQuestionIndex > questions.length || timer == 0) {
+  if (currentQuestionIndex == questions.length || timer <= 0) {
 
     //if it did ???
     quizEnd();
 
   } else {
+    getQuestion(currentQuestionIndex);
     
     // if it didnt??
   }
+    // move to next question
+
+
+    
 }
+
+
 
 function quizEnd() {
   // stop timer
- 
+  clearInterval(timeLeft);
   // show end screen
   var endScreenEl = document.getElementById('end-screen');
   endScreenEl.removeAttribute('class', "hide");
 
   // show final score
-  var finalScoreEl = document.getElementById('initials');
-  finalScoreEl.textContent = time;
+  var finalScoreEl = document.getElementById('final-score');
+  finalScoreEl.textContent = timer;
 
   // hide questions section
+  questionsEl.setAttribute("class", "hide");
 }
 
 function clockTick() {
+  
   // update time
+  timerEl.textContent = timer; 
+
   // decrement the variable we are using to track time
   timer--;
-
-  timerEl.textContent = timer; // update out time
+  
+  // update out time
 
   // check if user ran out of time
   if (time <= 0) {
