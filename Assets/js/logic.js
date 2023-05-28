@@ -159,12 +159,11 @@ function saveHighscore() {
   var initials = initialsEl.value.trim();
 
   // make sure value wasn't empty
-  if (initials) {
+  if (initials || (initials.length>0 && initials.length <= 3)) {
 
     // get saved scores from localstorage, or if not any, set to empty array
+    var highscores = JSON.parse(localStorage.getItem('highscores')) || [];
     
-    var highscores = localStorage.getItem("highscores")
-      JSON.parse(highscores) /* what would go inside the PARSE??*/ || [];
 
     // format new score object for current user
     var newScore = {
@@ -173,11 +172,12 @@ function saveHighscore() {
     };
 
     // save to localstorage
-    highscores.initials.push(newScore);
+    highscores.newScore;
     window.localStorage.setItem('highscores', JSON.stringify(highscores));
+    console.log(highscores);
 
     // redirect to next page
-    window.location.href = '/highscores.html';
+    window.location.href = './highscores.html';
   } else {
     alert("please enter your initials!!!");
   }

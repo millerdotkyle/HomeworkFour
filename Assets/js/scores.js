@@ -1,9 +1,11 @@
 function printHighscores() {
   // either get scores from localstorage or set to empty array
-  var highscores = JSON.parse(window.localStorage.getItem('highscores')) || [];
+  var highscores = JSON.parse(window.localStorage.getItem("highscores")) || [];
 
   // sort highscores by score property in descending order HINT: the sort method. 
   highscores.sort();
+
+  console.log(highscores);
 
   for (var i = 0; i < highscores.length; i += 1) {
     // create li tag for each high score
