@@ -1,6 +1,11 @@
 # HomeworkFour
  this is the homework for web APIs
 
+ This webpage asks the user a 4 question quiz while counting down from 100
+ When a wrong answer is submitted, 20 seconds are subtracted from the timer
+ When the timer reaches zero or the user finishes the quiz, which ever happens first, the time is saved as their score
+The user is then prompted to input initials to save a highscore
+
 
 # 04 Web APIs: Code Quiz
 
