@@ -13,7 +13,7 @@ var startBtn = document.getElementById('start');
 var initialsEl = document.getElementById('initials');
 var feedbackEl = document.getElementById('feedback');
 
-console.log(timerEl);
+// console.log(timerEl);
 
 function startQuiz() {
   // hide start screen
@@ -35,6 +35,7 @@ function startQuiz() {
 function getQuestion() {
   // get current question object from array
   var currentQuestion = questions[currentQuestionIndex];
+  // console.log(currentQuestion);
 
   // update title with current question
   var titleEl = document.getElementById('question-title');
@@ -47,19 +48,22 @@ function getQuestion() {
   for (var i = 0; i < currentQuestion.choices.length; i++) {
     // create new button for each choice
     var choice = currentQuestion.choices[i];
-    var choiceNode = document.createElement('');
+    var choiceNode = document.createElement("button");
     choiceNode.setAttribute('class', 'choice');
     choiceNode.setAttribute('value', choice);
 
     choiceNode.textContent = i + 1 + '. ' + choice;
 
     // display on the page
-    choicesEl.appendChild();
+    choicesEl.appendChild(choiceNode);
   }
+  
 }
 
 function questionClick(event) {
+  // console.log(event.target);
   var buttonEl = event.target;
+  console.log(buttonEl.value);
 
   // if the clicked element is not a choice button, do nothing.
   if (!buttonEl.matches('.choice')) {
@@ -67,44 +71,45 @@ function questionClick(event) {
   }
 
   // check if user guessed wrong
-  if (buttonEl !== currentQuestion.answer) {
-
-
+  if (buttonEl.value != questions[currentQuestionIndex].answer) {
 
     // penalize time
-    timer--;
+    timer = timer-5;
   
    
-
     // display new time on page
-   timerEl.textContent(timer);
+   timerEl.textContent = timer;
 
   // flash right/wrong feedback on page for half a second
- 
+  // alert("Incorrect, 5 seconds have been deducted, try again");
+
 
   // move to next question
-  
+  currentQuestionIndex++;
+  getQuestion(currentQuestionIndex);
+  }
 
   // check if we've run out of questions or if time ran out?
-  if (!currentQuestion || timer == 0) {
+  if (currentQuestionIndex > questions.length || timer == 0) {
 
     //if it did ???
+    quizEnd();
 
   } else {
     
     // if it didnt??
   }
-}}
+}
 
 function quizEnd() {
   // stop timer
  
   // show end screen
-  var endScreenEl = document.getElementById('');
-  endScreenEl.removeAttribute('class');
+  var endScreenEl = document.getElementById('end-screen');
+  endScreenEl.removeAttribute('class', "hide");
 
   // show final score
-  var finalScoreEl = document.getElementById('');
+  var finalScoreEl = document.getElementById('initials');
   finalScoreEl.textContent = time;
 
   // hide questions section
@@ -143,10 +148,10 @@ function saveHighscore() {
 
     // save to localstorage
     highscores.push(newScore);
-    window.localStorage.setItem('highscores', JSON.stringify(/* What would we put inside STRINGIFY? */));
+    window.localStorage.setItem('highscores', JSON.stringify(""));
 
     // redirect to next page
-    window.location.href = '';
+    window.location.href = '/highscores.html';
   }
 }
 
