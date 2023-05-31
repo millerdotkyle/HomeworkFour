@@ -13,12 +13,6 @@ var startBtn = document.getElementById('start');
 var initialsEl = document.getElementById('initials');
 var feedbackEl = document.getElementById('feedback');
 
-var highscores = [{
-  initials: "", 
-  score: 0
-}];
-
-// localStorage.setItem("highscores", JSON.stringify(highscores));
 
 // console.log(timerEl);
 
@@ -154,27 +148,31 @@ function clockTick() {
   }
 }
 
-function saveHighscore() {
+function saveHighscore(event) {
+
+  event.preventDefault();
   // get value of input box
   var initials = initialsEl.value.trim();
+  console.log(initials);
 
   // make sure value wasn't empty
-  if (initials || (initials.length>0 && initials.length <= 3)) {
+  if (initials.length > 0 && initials.length <= 3) {
 
     // get saved scores from localstorage, or if not any, set to empty array
     var highscores = JSON.parse(localStorage.getItem('highscores')) || [];
+    console.log(highscores);
     
 
     // format new score object for current user
     var newScore = {
-      score: time,
-      initials: initials,
+      name: initials,
+      score: timer
     };
 
     // save to localstorage
-    highscores.newScore;
+    highscores.push(newScore);
     window.localStorage.setItem('highscores', JSON.stringify(highscores));
-    console.log(highscores);
+    console.log(highscores.newScore);
 
     // redirect to next page
     window.location.href = './highscores.html';
@@ -191,7 +189,7 @@ function checkForEnter(event) {
 }
 
 // user clicks button to submit initials
-submitBtn.onclick = saveHighscore;
+submitBtn.addEventListener("click", saveHighscore);
 
 // user clicks button to start quiz
 startBtn.onclick = startQuiz;
@@ -199,4 +197,4 @@ startBtn.onclick = startQuiz;
 // user clicks on element containing choices
 choicesEl.onclick = questionClick;
 
-initialsEl.onkeyup = checkForEnter;
+initialsEl.addEventListener("keyup", checkForEnter);
